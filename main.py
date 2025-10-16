@@ -36,14 +36,13 @@ def generate_random_initial_prompt() -> str:
     )
     
     system_prompt = (
-        "You are a creative prompt generator for image generation. "
-        "Generate a single, vivid, beautifuland imaginative scene description in one sentence. "
-        "Be creative and varied - include different themes. "
+        "You are a prompt generator for image generation. "
+        "Generate a single, beautiful and imaginative scene description in up to 3 sentences. "
+        "Be creative and varied - include different themes. Make it realistic and beautiful. You are forbidden to generate forrest descriptions. "
         "Keep it concise but descriptive (15-25 words)."
     )
     
-    user_prompt = "Generate a unique and creative image prompt."
-    
+    user_prompt = "Generate a unique and creative image prompt. You are free with the theme selection."
     try:
         response = client.chat.completions.create(
             model=deployment_name,
@@ -51,8 +50,8 @@ def generate_random_initial_prompt() -> str:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            temperature=1.2,  # High temperature for more creativity and randomness
-            max_tokens=100
+            temperature=1.8,  # High temperature for more creativity and randomness
+            max_tokens=200
         )
         
         prompt = response.choices[0].message.content.strip()
@@ -95,7 +94,7 @@ def main():
     print("Iterative Image Generation Loop")
     print("=" * 60)
     print(f"\nInitial prompt: {initial_prompt}\n")
-    
+    # return
     # Current prompt starts with the initial sentence
     current_prompt = initial_prompt
     
