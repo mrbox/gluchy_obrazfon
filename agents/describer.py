@@ -65,7 +65,7 @@ class ImageDescriber:
             raise ValueError(f"Expected a PNG image, received: {path.suffix or 'unknown extension'}")
 
         base_prompt = prompt or (
-            "You are an observant visual assistant. Describe the main elements, colors, and context "
+            "You are an observant visual assistant. Describe the picture and feelings that it evokes. "
             "of the provided image in two or three concise sentences."
         )
 
