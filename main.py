@@ -10,33 +10,6 @@ from smolagents import LiteLLMModel, ToolCallingAgent, tool
 load_dotenv()
 
 
-# Define a custom tool for the agent
-@tool
-def calculator(operation: str, x: float, y: float) -> float:
-    """
-    Performs basic mathematical operations.
-    
-    Args:
-        operation: The operation to perform (add, subtract, multiply, divide)
-        x: First number
-        y: Second number
-    
-    Returns:
-        The result of the operation
-    """
-    if operation == "add":
-        return x + y
-    elif operation == "subtract":
-        return x - y
-    elif operation == "multiply":
-        return x * y
-    elif operation == "divide":
-        if y == 0:
-            raise ValueError("Cannot divide by zero")
-        return x / y
-    else:
-        raise ValueError(f"Unknown operation: {operation}")
-
 
 def main():
     """Main application entry point"""
@@ -69,12 +42,6 @@ def main():
         api_version=api_version
     )
     
-    # Initialize the agent with tools
-    agent = ToolCallingAgent(
-        tools=[calculator],
-        model=model,
-        max_steps=10
-    )
     
     # Example usage
     print("=" * 60)
