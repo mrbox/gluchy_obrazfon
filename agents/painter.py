@@ -9,9 +9,13 @@ from datetime import datetime
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 from smolagents import LiteLLMModel, ToolCallingAgent, tool
+import litellm
 
 # Load environment variables
 load_dotenv()
+
+# Configure litellm to drop unsupported params for Azure OpenAI
+litellm.drop_params = True
 
 
 @tool
@@ -27,10 +31,10 @@ def generate_image(prompt: str, output_dir: str = "generated_images") -> str:
         Path to the saved image file
     """
     # Azure OpenAI configuration
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    api_key = os.getenv("AZURE_OPENAI_API_KEY")
+    azure_endpoint = os.getenv("AZURE_DALLE_ENDPOINT")
+    api_key = os.getenv("AZURE_DALLE_API_KEY")
     api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
-    dalle_deployment = os.getenv("AZURE_OPENAI_DALLE_DEPLOYMENT_NAME", "dall-e-3")
+    dalle_deployment = "dall-e-3"
     
     if not all([azure_endpoint, api_key]):
         raise ValueError(

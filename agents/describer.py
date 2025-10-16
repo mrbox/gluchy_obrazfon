@@ -27,7 +27,7 @@ class ImageDescriber:
 
         self._azure_endpoint = azure_endpoint or os.getenv("AZURE_OPENAI_ENDPOINT")
         self._api_key = api_key or os.getenv("AZURE_OPENAI_API_KEY")
-        self._api_version = api_version or os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
+        self._api_version = api_version or os.getenv("AZURE_OPENAI_API_VERSION", "2025-04-01-preview")
         self._deployment_name = deployment_name or os.getenv("AZURE_OPENAI_VISION_DEPLOYMENT_NAME") or os.getenv(
             "AZURE_OPENAI_DEPLOYMENT_NAME"
         )
@@ -77,12 +77,12 @@ class ImageDescriber:
                 response = self._client.responses.create(
                     model=self._deployment_name,
                     input=[
-                        {"role": "system", "content": [{"type": "text", "text": base_prompt}]},
+                        {"role": "system", "content": [{"type": "input_text", "text": base_prompt}]},
                         {
                             "role": "user",
                             "content": [
-                                {"type": "input_image", "image_base64": encoded_image, "media_type": "image/png"},
-                                {"type": "text", "text": "Provide the description now."},
+                                {"type": "input_text", "text": "Provide the description now."},
+                                {"type": "input_image", "image_url": f"data:image/png;base64,{encoded_image}"},
                             ],
                         },
                     ],
@@ -103,7 +103,8 @@ class ImageDescriber:
 
                 if description:
                     return description.strip()
-            except Exception:
+            except Exception as e:
+                print(f"Failed to generate description: {str(e)}")
                 # Fall back to heuristic description if the API call fails.
                 pass
 
