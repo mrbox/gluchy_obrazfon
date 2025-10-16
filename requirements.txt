@@ -1,0 +1,12 @@
+# Azure OpenAI
+openai>=1.12.0
+azure-identity>=1.15.0
+
+# Smolagents
+smolagents>=0.1.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Additional utilities
+requests>=2.31.0
